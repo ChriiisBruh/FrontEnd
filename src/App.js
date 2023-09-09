@@ -1,5 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const apiUrl = "http://localhost:3002/api/users"; 
+
 
 function App() {
   return (
