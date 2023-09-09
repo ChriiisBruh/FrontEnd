@@ -8,25 +8,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const apiUrl = "http://localhost:3002/api/users"; 
 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = () => {
+    axios.get(apiUrl)
+      .then((response) => {
+        this.setState({ data: response.data });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+
 }
 
 export default App;
