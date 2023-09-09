@@ -9,6 +9,16 @@ const apiUrl = "http://localhost:3002/api/users";
 
 
 class App extends Component {
+  state = {
+    data: [],
+    modalInsert: false,
+    form: {
+      id: '',
+      name: '',
+      email: '',
+      typeModal: ''
+    },
+  };
 
   componentDidMount() {
     this.fetchData();
@@ -63,6 +73,27 @@ class App extends Component {
       .then(() => {
         this.clearForm(); // Limpia el formulario después de agregar
         this.toggleModal();
+        this.fetchData();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  handleUpdate = () => {
+    axios.put(apiUrl + '/' + this.state.form.id, this.state.form)
+      .then(() => {
+        this.toggleModal();
+        this.fetchData();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  handleDelete = (id) => {
+    axios.delete(apiUrl + '/' + id)
+      .then(() => {
         this.fetchData();
       })
       .catch((error) => {
