@@ -24,6 +24,70 @@ class App extends Component {
       });
   };
 
+  toggleModal = () => {
+    this.setState({ modalInsert: !this.state.modalInsert });
+  };
+
+  selectForm = (form) => {
+    this.setState({
+      form: {
+        id: form.id,
+        name: form.name,
+        email: form.email,
+      },
+    });
+  };
+
+  clearForm = () => {
+    this.setState({
+      form: {
+        id: '',
+        name: '',
+        email: '',
+      },
+    });
+  };
+
+  render() {
+    return (
+      <div className="App container">
+        <br /><br /><br />
+        <button className="btn btn-success" onClick={() => { this.clearForm(); this.toggleModal(); }}>
+          Agregar Usuario
+        </button>
+        <br /><br />
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+              {this.state.data.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <button className="btn btn-primary" onClick={() => { this.selectForm(user); this.toggleModal(); }}>
+                      <FontAwesomeIcon icon={faEdit} />
+                    </button>
+                    {"   "}
+                    <button className="btn btn-danger" onClick={() => this.handleDelete(user.id)}>
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+
+        
+      </div>
+    );
+  }
+
 
 }
 
