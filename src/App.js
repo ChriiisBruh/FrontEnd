@@ -48,6 +48,28 @@ class App extends Component {
     });
   };
 
+  handleChange = (e) => {
+    e.persist();
+    this.setState((prevState) => ({
+      form: {
+        ...prevState.form,
+        [e.target.name]: e.target.value,
+      },
+    }));
+  };
+
+  handleCreate = () => {
+    axios.post(apiUrl, this.state.form)
+      .then(() => {
+        this.clearForm(); // Limpia el formulario después de agregar
+        this.toggleModal();
+        this.fetchData();
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   render() {
     return (
       <div className="App container">
@@ -82,8 +104,32 @@ class App extends Component {
               ))}
           </tbody>
         </table>
-
-        
+        <Modal isOpen={this.state.modalInsert} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>
+            {this.state.form.id ? 'Editar Usuario' : 'Agregar Usuario'}
+          </ModalHeader>
+          <ModalBody>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input className="form-control" type="text" name="name" id="name" onChange={this.handleChange} value={this.state.form.name || ''} />
+              <br />
+              <label htmlFor="email">Email</label>
+              <input className="form-control" type="text" name="email" id="email" onChange={this.handleChange} value={this.state.form.email || ''} />
+              <br />
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            {this.state.form.id ?
+              <button className="btn btn-success" onClick={this.handleUpdate}>
+                Actualizar
+              </button> :
+              <button className="btn btn-success" onClick={this.handleCreate}>
+                Insertar
+              </button>
+            }
+            <button className="btn btn-danger" onClick={this.toggleModal}>Cancelar</button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }
